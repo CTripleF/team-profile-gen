@@ -1,17 +1,24 @@
-const { test } = require('picomatch');
 const Engineer = require('../lib/Engineer.js')
 
 test('create new engineer object', () => {
   const engineer = new Engineer('Tony', 50, 'test@email.com', 'TStark');
 
   expect(engineer.name).toBe('Tony');
-  expect(engineer.id).toEqual(expect.any(Number));
-  expect(engineer.email).toEqual(expect.any(String));
-  expect(engineer.github).toEqual(expect.any(String));
+  expect(engineer.id).toEqual(50);
+  expect(engineer.email).toEqual('test@email.com');
+  expect(engineer.github).toEqual('TStark');
 });
 
-test('get role identifier', () =>{
-  const employee = new Employee('Tony', 50, 'test@email.com');
+// test getGithub()
+test('get Github username',()=>{
+  const employee = new Engineer('Tony', 50, 'test@email.com', 'TStark');
 
-  expect(employee.getRole()).toBe('engineer')
+  expect(employee.getGithub()).toBe('TStark');
+})
+
+//test getRole()
+test('get role identifier', () =>{
+  const employee = new Engineer('Tony', 50, 'test@email.com', 'TStark');
+
+  expect(employee.getRole()).toBe('Engineer')
 })

@@ -9,8 +9,9 @@ test('create new intern object', () => {
   expect(intern.school).toEqual(expect.any(String));
 });
 
+// ttest getRole()
 test('get role identifier', () =>{
-  const employee = new Employee('Anakin', 50, 'test@email.com', 'Jedi Academy');
+  const employee = new Intern('Anakin', 50, 'test@email.com', 'Jedi Academy');
 
-  expect(employee.getRole()).toBe('intern')
+  expect(employee.getRole()).toBe('Intern')
 })
