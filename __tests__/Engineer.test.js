@@ -5,8 +5,8 @@ test('create new engineer object', () => {
 
   expect(engineer.name).toBe('Tony');
   expect(engineer.id).toEqual(50);
-  expect(engineer.email).toEqual('test@email.com');
-  expect(engineer.github).toEqual('TStark');
+  expect(engineer.email).toBe('test@email.com');
+  expect(engineer.github).toBe('TStark');
 });
 
 // test getGithub()
