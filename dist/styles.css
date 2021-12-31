@@ -3,7 +3,7 @@
 }
 
 :root {
-  --primary-color: rgb(255, 255, 255);
+  --primary-color: rgb(11, 240, 182);
   --secondary-color: rgb(0, 0, 0);
 }
 
@@ -11,16 +11,18 @@ body {
   font-family: "Gill Sans", "Gill Sans MT", sans-serif;
 }
 
-#navbar {
-  background-color: rgb(255, 77, 77);
-  font-size: 65px;
+nav {
+  background-color: rgb(30, 241, 11);
+  font-size: 50px;
+  font-weight: bolder;
   text-align: center;
+  justify-content: center;
   padding: 20px;
 }
 
 
 .card-header {
-  background-color: rgb(102, 153, 255);
+  background-color: rgba(107, 73, 185, 0.904);
 }
 
 .card-body {
