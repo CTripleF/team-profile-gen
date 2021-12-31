@@ -1,18 +1,54 @@
 
-const generateManager= (manager) => {
+const generateManager= (employee) => {
   return `
   <div class = 'col-4 mt-4'>
     <div class = 'card h-100'>
       <div class = 'card-header'>
-        <h2>${manager.name}</h2>
+        <h2>${employee.name}</h2>
         <h3>Manager</h3>
       </div>
     <div class = 'card-body'>
-      <p id = 'id'>ID: ${manager.id}</p>
-  `
+      <p id = 'id'>ID: ${employee.id}</p>
+      <p id = 'email'>E-mail: <a href="mailto: ${employee.email}">${employee.email}</a></p>
+      <p id = 'officeId'>Office ID: ${employee.officeId}</p>
+    </div>
+  </div>
+  `;
 }
 
+const generateEngineer= (employee) => {
+  return `
+  <div class = 'col-4 mt-4'>
+    <div class = 'card h-100'>
+      <div class = 'card-header'>
+        <h2>${employee.name}</h2>
+        <h3>Engineer</h3>
+      </div>
+    <div class = 'card-body'>
+      <p id = 'id'>ID: ${employee.id}</p>
+      <p id = 'email'>E-mail: <a href="mailto: ${employee.email}">${employee.email}</a></p>
+      <p id = 'github'>Github: <a href="https://github/${employee.github}">${employee.github}</a></p>
+    </div>
+  </div>
+  `;
+}
 
+const generateIntern= (employee) => {
+  return `
+  <div class = 'col-4 mt-4'>
+    <div class = 'card h-100'>
+      <div class = 'card-header'>
+        <h2>${employee.name}</h2>
+        <h3>Intern</h3>
+      </div>
+    <div class = 'card-body'>
+      <p id = 'id'>ID: ${employee.id}</p>
+      <p id = 'email'>E-mail: <a href="mailto: ${employee.email}">${employee.email}</a></p>
+      <p id = 'school'>School: ${employee.officeId}</p>
+    </div>
+  </div>
+  `;
+}
 
 
 generateHTML = (teamArray) => {
@@ -20,7 +56,7 @@ generateHTML = (teamArray) => {
 
   for (let i = 0; i < teamArray.length; i++) {
     const employee = teamArray[i];
-    console.log(teamArray[i])
+    console.log(teamArray[i]);
     const role = employee.getRole();
 
     if (role === 'Manager') {
@@ -39,7 +75,7 @@ generateHTML = (teamArray) => {
     }
 }
 
-const teamCards = pageArray.join('')
+const teamCards = cardArray.join('')
 
 const generateTeam = generateTeamPage(teamCards);
 return generateTeam;

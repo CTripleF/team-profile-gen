@@ -5,7 +5,7 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 const generateHTML = require('./src/generateHTML.js')
 
-let teamArray = [];
+const teamArray = [];
 
 const employeeQuestions = [
   {
@@ -52,36 +52,6 @@ const employeeQuestions = [
   }
 ];
 
-const engineeerQuestion = {
-  type: 'input',
-  name: 'github',
-  message: "What is this employeee's Github username? (Required)",
-  validate: githubIdInput => {
-    if (githubIdInput) {
-      return true;
-    } 
-    else {
-      console.log('Please enter their Github username');
-      return false;
-    }
-  }
-}
-
-const internQuestion = {
-  type: 'input',
-  name: 'school',
-  message: "What is this employeee's school? (Required)",
-  validate: officeIdInput => {
-    if (officeIdInput) {
-      return true;
-    } 
-    else {
-      console.log('Please enter their school');
-      return false;
-    }
-  }
-}
-
 const managerQuestion = {
   type: 'input',
   name: 'officeId',
@@ -104,15 +74,126 @@ const addManager = () => {
   return inquirer.prompt(employeeQuestions)
     .then(input => {
       const {name, id, email, officeId} = input;
-      const manager = new Manager(name, id, email, officeId)
+      const manager = new Manager(name, id, email, officeId);
+      teamArray.push(manager);
+      // console.log(manager.getRole())
     })
+}
+
+
+const addEmployee = () => {
+  console.log(`
+  -----------------
+  Build your team
+  -----------------
+  `);
+
+  return inquirer.prompt ([
+    {
+      type: 'list',
+      name: 'role',
+      message: 'Choose your employee role from the following options.',
+      choices: ['Engineer', 'Intern']
+    },
+    {
+      type: 'input',
+      name: 'name',
+      message: 'What is the name of the employee?',
+      validate: nameInput => {
+        if (nameInput) {
+          return true;
+        } else {
+          console.log ("You need to enter the name of the employee to continue.");
+          return false;
+        }
+    }
+    },
+    {
+      type: 'input',
+      name: 'id',
+      message: "What is the ID of the employee?",
+      validate: idInput => {
+        if (idInput) {
+          return true;
+        } else {
+          console.log('You need to enter the employee ID to continue.');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'email',
+      message: 'What is the employee email?',
+      validate: emailInput => {
+        if (emailInput) {
+          return true;
+        } else {
+          console.log('You need to enter the employeer email to continue.');
+          return false;
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'github',
+      message: 'What is the employee github username?',
+      when: (input) => input.role === 'Engineer',
+      validate: githubInput => {
+        if (githubInput) {
+          return true;
+        } else {
+          console.log ('You need to enter the employee github username to continue.');
+        }
+      }
+    },
+    {
+      type: 'input',
+      name: 'school',
+      message: "What is the name of the intern's school?",
+      when: (input) => input.role === 'Intern',
+      validate: schoolInput => {
+        if (schoolInput) {
+          return true;
+        } else {
+          console.log ("You need to enter the intern school to continue.")
+        }
+      }
+    },
+    {
+      type: 'confirm',
+      name: 'confirmAddEmployee',
+      message: 'Would you like to add another team memeber?',
+      default: false
+    }
+  ])
+  .then(function(employeeData){
+    let { name, id, email, role, github, school, confirmAddEmployee } = employeeData;
+    let employee;
+
+    if (role === 'Engineer') {
+      employee = new Engineer (name, id, email, github);
+
+      console.log(employee);
+    } else if (role === 'Intern') {
+      employee =new Intern (name, id, email, school);
+      console.log(employee);
+    }
+    teamArray.push(employee);
+
+    if(confirmAddEmployee) {
+      return addEmployee(teamArray);
+    } else {
+      return teamArray;
+    }
+  })
 }
 
 
 // Create a function to write HTML file
 const writeToFile = data => {
   //write generated README into folder "dist"
-  fs.writeFile('./dist/index.html', generateHTML(data), function(err) {     
+  fs.writeFile('./dist/index.html', data, function(err) {     
     if (err) throw err;
     // if no error
     console.log("Data is written to file successfully.")
@@ -120,18 +201,18 @@ const writeToFile = data => {
 }
 
 addManager()
-    // .then(addEmployee)
-    .then(data => {
-      console.log(data)
-      console.log(teamArray)
-        return generateHTML(teamArray);
-    })
-    .then(pageHTML => {
-        return writeToFile(pageHTML);
-    })
-    .catch(err => {
-        console.log(err);
-    });
+  .then(addEmployee)
+  .then( teamArray => {
+    // console.log(data)
+    // console.log(teamArray)
+    return generateHTML(teamArray);
+  })
+  .then(pageHTML => {
+    return writeToFile(pageHTML);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 
 // GIVEN a command-line application that accepts user input:
