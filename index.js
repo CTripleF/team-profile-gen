@@ -1,53 +1,137 @@
 const inquirer = require('inquirer')
+const fs = require("fs")
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
+const generateHTML = require('./src/generateHTML.js')
 
-// const manager = new Manager();
-// inquirer.prompt(manager.questions)
-//   .then(employee =>{
-//     console.log(employee.name);
-//     console.log(employee.id);
-//     console.log(employee.email);
-//     console.log(employee.officeId);
-//   });
+let teamArray = [];
 
-// const intern = new Intern();
-// inquirer.prompt(intern.questions)
-//   .then(employee =>{
-//     console.log(employee.name);
-//     console.log(employee.id);
-//     console.log(employee.email);
-//     console.log(employee.school)
-//   });
+const employeeQuestions = [
+  {
+    type: 'input',
+    name: 'name',
+    message: "What is this employeee's name? (Required)",
+    validate: nameInput => {
+      if (nameInput) {
+        return true;
+      } 
+      else {
+        console.log('Please enter their name');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'input',
+    name: 'id',
+    message: "What is this employee's ID number?",
+    validate: idInput => {
+      if (idInput%1 == 0) {
+        return true;
+      } 
+      else {
+        console.log('Please enter an ID number');
+        return false;
+      }
+    }
+  },
+  {
+    type: 'input',
+    name: 'email',
+    message: "What is this employee's e-mail?",
+    validate: emailInput => {
+      if (emailInput) {
+        return true;
+      } 
+      else {
+        console.log('Please enter an e-mail');
+        return false;
+      }
+    }
+  }
+];
 
-// const engineer = new Engineer();
-// inquirer.prompt(engineer.questions)
-//   .then(employee =>{
-//     console.log(employee.name);
-//     console.log(employee.id);
-//     console.log(employee.email);
-//     console.log(employee.github)
-//   });
+const engineeerQuestion = {
+  type: 'input',
+  name: 'github',
+  message: "What is this employeee's Github username? (Required)",
+  validate: githubIdInput => {
+    if (githubIdInput) {
+      return true;
+    } 
+    else {
+      console.log('Please enter their Github username');
+      return false;
+    }
+  }
+}
+
+const internQuestion = {
+  type: 'input',
+  name: 'school',
+  message: "What is this employeee's school? (Required)",
+  validate: officeIdInput => {
+    if (officeIdInput) {
+      return true;
+    } 
+    else {
+      console.log('Please enter their school');
+      return false;
+    }
+  }
+}
+
+const managerQuestion = {
+  type: 'input',
+  name: 'officeId',
+  message: "What is this employeee's office ID? (Required)",
+  validate: officeIdInput => {
+    if (officeIdInput%1 == 0) {
+      return true;
+    } 
+    else {
+      console.log('Please enter their office ID');
+      return false;
+    }
+  }
+}
 
 
-// inquirer
-//   .prompt({
-//     type: 'text',
-//     name: 'name',
-//     message: 'What is the name of the employee?'
-//   })
-//   // destructure name from the prompt object
-//   .then(({ name }) => {
-//     let intern = new Intern(name);
-
-//     console.log(intern);
-
-//     console.log(intern.getRole());
-//   })
+const addManager = () => {
+  // use inquirer to gather manager details (name, id, email, officeId)
+  employeeQuestions.push(managerQuestion);
+  return inquirer.prompt(employeeQuestions)
+    .then(input => {
+      const {name, id, email, officeId} = input;
+      const manager = new Manager(name, id, email, officeId)
+    })
+}
 
 
+// Create a function to write HTML file
+const writeToFile = data => {
+  //write generated README into folder "dist"
+  fs.writeFile('./dist/index.html', generateHTML(data), function(err) {     
+    if (err) throw err;
+    // if no error
+    console.log("Data is written to file successfully.")
+  });
+}
 
+addManager()
+    // .then(addEmployee)
+    .then(data => {
+      console.log(data)
+      console.log(teamArray)
+        return generateHTML(teamArray);
+    })
+    .then(pageHTML => {
+        return writeToFile(pageHTML);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 
 // GIVEN a command-line application that accepts user input:
