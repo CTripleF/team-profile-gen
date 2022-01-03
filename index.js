@@ -167,6 +167,8 @@ const addEmployee = () => {
       default: false
     }
   ])
+  //after base confirming addition of new employee use role of intern or engineer in the first question to as for proper unique values
+  //then add the new employee to the team array to pass along to generateHTML()
   .then(function(employeeData){
     let { name, id, email, role, github, school, confirmAddEmployee } = employeeData;
     let employee;
@@ -192,7 +194,7 @@ const addEmployee = () => {
 
 // Create a function to write HTML file
 const writeToFile = data => {
-  //write generated README into folder "dist"
+  //write generated Rindex.html into folder "dist"
   fs.writeFile('./dist/index.html', data, function(err) {     
     if (err) throw err;
     // if no error

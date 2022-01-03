@@ -56,7 +56,7 @@ const generateIntern= (employee) => {
 
 generateHTML = (teamArray) => {
   cardArray = [];
-
+  // loop through array of employees and use getRole() to create and display the proper card
   for (let i = 0; i < teamArray.length; i++) {
     const employee = teamArray[i];
     console.log(teamArray[i]);
@@ -76,7 +76,7 @@ generateHTML = (teamArray) => {
       const internCard = generateIntern(employee);
       cardArray.push(internCard);
     }
-}
+  }
 
 const teamCards = cardArray.join('')
 
@@ -99,8 +99,8 @@ const generateTeamPage = function (employeeCards)  {
 </head>
 <body>
   <header>
-    <nav class="navbar" id="navbar">
-      <span class="navbar-brand mb-0 h2 2-100 text-center" id="navbar-text">Team Profile</span>
+    <nav>
+      <span>Team Profile</span>
     </nav>
   </header>
   <main>
