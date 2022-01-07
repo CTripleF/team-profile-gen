@@ -5,6 +5,8 @@
 ## Description
 This application uses Test  driven programming and inquirer to generate a working team profile page. It uses command line inputs to obtain the proper information needed for each role of the team members then creates an HTML page displaying their roles and information.
 
+Link to walkthrough Video: https://watch.screencastify.com/v/RTlylNlI9OBINKhIFLqI
+
 ## Table of Contents
 *[Installation](#Installation)
 *[Usage](#Usage)
